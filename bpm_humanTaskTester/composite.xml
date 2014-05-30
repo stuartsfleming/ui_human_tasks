@@ -10,20 +10,19 @@
            xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
            xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
            xmlns:ui="http://xmlns.oracle.com/soa/designer/">
-  <import namespace="http://xmlns.oracle.com/bpmn/bpmnProcess/Process" location="Process.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/HumanTaskTester/bpm_humanTaskTester/GetEmployeeData" location="GetEmployeeData.wsdl" importType="wsdl"/>
-  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/HumanTaskTester/bpm_humanTaskTester/Writer" location="Writer.wsdl" importType="wsdl"/>
-  <service name="Process.service" ui:wsdlLocation="Process.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/bpmn/bpmnProcess/Process#wsdl.interface(ProcessPortType)"
-                    callbackInterface="http://xmlns.oracle.com/bpmn/bpmnProcess/Process#wsdl.interface(ProcessPortTypeCallBack)"/>
-    <binding.ws port="http://xmlns.oracle.com/bpmn/bpmnProcess/Process#wsdl.endpoint(Process.service/ProcessPort)"/>
+  <import namespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessEmployeeData" location="ProcessEmployeeData.wsdl" importType="wsdl"/>
+  <service name="ProcessEmployeeData.service" ui:wsdlLocation="ProcessEmployeeData.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessEmployeeData#wsdl.interface(ProcessEmployeeDataPortType)"
+                    callbackInterface="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessEmployeeData#wsdl.interface(ProcessEmployeeDataPortTypeCallBack)"/>
+    <binding.ws port="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessEmployeeData#wsdl.endpoint(ProcessEmployeeData.service/ProcessEmployeeDataPort)"/>
     <callback>
-      <binding.ws port="http://xmlns.oracle.com/bpmn/bpmnProcess/Process#wsdl.endpoint(Process.service/ProcessPortTypeCallBack_pt)"/>
+      <binding.ws port="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessEmployeeData#wsdl.endpoint(ProcessEmployeeData.service/ProcessEmployeeDataPortTypeCallBack_pt)"/>
     </callback>
   </service>
   <property name="productVersion" type="xs:string" many="false">11.1.1.7.0</property>
-  <component name="Process">
-    <implementation.bpmn src="processes/Process.bpmn"/>
+  <component name="ProcessEmployeeData">
+    <implementation.bpmn src="processes/ProcessEmployeeData.bpmn"/>
   </component>
   <reference name="GetEmployeeData" ui:wsdlLocation="GetEmployeeData.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/HumanTaskTester/bpm_humanTaskTester/GetEmployeeData#wsdl.interface(GetEmployeeData_ptt)"/>
@@ -33,16 +32,8 @@
     <property name="jca.retry.backoff" type="xs:int" many="false" override="may">2</property>
     <property name="jca.retry.maxInterval" type="xs:string" many="false" override="may">120</property>
   </reference>
-  <reference name="Writer" ui:wsdlLocation="Writer.wsdl">
-    <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/file/HumanTaskTester/bpm_humanTaskTester/Writer#wsdl.interface(Write_ptt)"/>
-    <binding.jca config="Writer_file.jca"/>
-  </reference>
   <wire>
-    <source.uri>Process/Services.Externals.GetEmployeeData.reference</source.uri>
-    <target.uri>GetEmployeeData</target.uri>
-  </wire>
-  <wire>
-    <source.uri>Process.service</source.uri>
-    <target.uri>Process/Process.service</target.uri>
+    <source.uri>ProcessEmployeeData.service</source.uri>
+    <target.uri>ProcessEmployeeData/ProcessEmployeeData.service</target.uri>
   </wire>
 </composite>
