@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetEmployeeData" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/GetEmployeeData"
+           elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="GetEmployeeDataInput" type="GetEmployeeDataInput"/>
+   <xs:complexType name="GetEmployeeDataInput">
+      <xs:sequence>
+         <xs:element name="pEmpID" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="GetEmployeeDataOutputCollection" type="GetEmployeeDataOutputCollection"/>
+   <xs:complexType name="GetEmployeeDataOutputCollection">
+      <xs:sequence>
+         <xs:element name="GetEmployeeDataOutput" type="GetEmployeeDataOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="GetEmployeeDataOutput">
+      <xs:sequence>
+         <xs:element name="EMPLOYEE_ID" type="xs:decimal" nillable="true"/>
+         <xs:element name="FIRST_NAME" type="xs:string" nillable="true"/>
+         <xs:element name="LAST_NAME" type="xs:string" nillable="true"/>
+         <xs:element name="EMAIL" type="xs:string" nillable="true"/>
+         <xs:element name="PHONE_NUMBER" type="xs:string" nillable="true"/>
+         <xs:element name="HIRE_DATE" type="xs:dateTime" nillable="true"/>
+         <xs:element name="JOB_ID" type="xs:string" nillable="true"/>
+         <xs:element name="SALARY" type="xs:decimal" nillable="true"/>
+         <xs:element name="COMMISSION_PCT" type="xs:decimal" nillable="true"/>
+         <xs:element name="MANAGER_ID" type="xs:decimal" nillable="true"/>
+         <xs:element name="DEPARTMENT_ID" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

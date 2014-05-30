@@ -1,0 +1,25 @@
+<?binding.jca GetEmployeeData_db.jca?>
+<wsdl:definitions name="GetEmployeeData" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/HumanTaskTester/bpm_humanTaskTester/GetEmployeeData" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/GetEmployeeData" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/HumanTaskTester/bpm_humanTaskTester/GetEmployeeData" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="GetEmployeeData_plt">
+        <plt:role name="GetEmployeeData_role">
+            <plt:portType name="tns:GetEmployeeData_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetEmployeeData" schemaLocation="xsd/GetEmployeeData.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="GetEmployeeDataInput_msg">
+        <wsdl:part name="GetEmployeeDataInput_msg" element="db:GetEmployeeDataInput"/>
+    </wsdl:message>
+    <wsdl:message name="GetEmployeeDataOutputCollection_msg">
+        <wsdl:part name="GetEmployeeDataOutputCollection" element="db:GetEmployeeDataOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="GetEmployeeData_ptt">
+        <wsdl:operation name="GetEmployeeData">
+            <wsdl:input message="tns:GetEmployeeDataInput_msg"/>
+            <wsdl:output message="tns:GetEmployeeDataOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
