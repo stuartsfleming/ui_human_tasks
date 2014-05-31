@@ -51,6 +51,7 @@
             <topicDocumentation name="sf5"/>
             <topicDocumentation name="sf7"/>
             <topicDocumentation name="sf11"/>
+            <topicDocumentation name="sf10"/>
         </topicDocumentations>
     </component>
 </processDocumentation>
