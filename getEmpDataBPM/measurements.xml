@@ -2,7 +2,7 @@
 <measurements xmlns="http://xmlns.oracle.com/bpm/analytics/measurement">
     <compositeDN>getEmpDataBPM</compositeDN>
     <measurementElements>
-        <measurementElement name="getEmpDataBPM" type="COMPOSITE" enabled="true">
+        <measurementElement enabled="true" type="COMPOSITE" name="getEmpDataBPM">
             <elementSelection>INTERACTIVE</elementSelection>
             <elementStates>
                 <elementState>ALL</elementState>

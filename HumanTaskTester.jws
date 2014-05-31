@@ -12,7 +12,7 @@
       <value n="oracle.mds.internal.dt.ide.migrator.MDSConfigMigratorHelper" v="11.1.1.0.5313"/>
    </hash>
    <list n="listOfChildren">
-      <hash><url n="URL" path="bpm_humanTaskTester/bpm_humanTaskTester.jpr"/></hash>
+      <hash><url n="URL" path="getEmpDataBPM/getEmpDataBPM.jpr"/></hash>
       <hash><url n="URL" path="git.jpr"/></hash>
    </list>
 </jws:workspace>

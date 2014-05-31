@@ -14,6 +14,7 @@
   <import namespace="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData" location="BPELProcessGetData.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/bpmn/bpmnProcess/BPMProcessGetData" location="BPMProcessGetData.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/BPMGetEmpData/getEmpDataBPM/Writer" location="Writer.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/bpel/workflow/taskService" location="oramds:/soa/shared/workflow/TaskServiceInterface.wsdl" importType="wsdl"/>
   <service name="bpelprocessgetdata_client_ep" ui:wsdlLocation="BPELProcessGetData.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData#wsdl.interface(BPELProcessGetData)"
                     callbackInterface="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData#wsdl.interface(BPELProcessGetDataCallback)"/>
@@ -37,6 +38,9 @@
   </component>
   <component name="BPMProcessGetData">
     <implementation.bpmn src="processes/BPMProcessGetData.bpmn"/>
+  </component>
+  <component name="GenericTaskHumanTaskUI">
+    <implementation.workflow src="GenericTaskHumanTaskUI.task"/>
   </component>
   <reference name="getEmpData" ui:wsdlLocation="getEmpData.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/BPMGetEmpData/getEmpDataBPM/getEmpData#wsdl.interface(getEmpData_ptt)"/>
@@ -69,6 +73,10 @@
   <wire>
     <source.uri>BPMProcessGetData/Services.Externals.Writer.reference</source.uri>
     <target.uri>Writer</target.uri>
+  </wire>
+  <wire>
+    <source.uri>BPMProcessGetData/HumanTasks.GenericTaskHumanTaskUI.reference</source.uri>
+    <target.uri>GenericTaskHumanTaskUI/TaskService</target.uri>
   </wire>
   <wire>
     <source.uri>BPMProcessGetData.service</source.uri>
