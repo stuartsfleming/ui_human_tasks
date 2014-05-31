@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="BPELProcessGetData"
+             targetNamespace="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData"
+             xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TYPE DEFINITION - List of services participating in this BPEL process
+	The default output of the BPEL designer uses strings as input and 
+	output to the BPEL Process. But you can define or import any XML 
+	Schema type and use them as part of the message types.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->   
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData" schemaLocation="xsd/getEmpData.xsd" />
+		</schema>
+	</wsdl:types>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MESSAGE TYPE DEFINITION - Definition of the message types used as 
+	part of the port type defintions
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->      
+	<wsdl:message name="BPELProcessGetDataRequestMessage">
+		<wsdl:part name="payload" element="ns1:getEmpDataInput" />
+	</wsdl:message>
+
+	<wsdl:message name="BPELProcessGetDataResponseMessage">
+		<wsdl:part name="payload" element="ns1:getEmpDataOutputCollection" />
+	</wsdl:message>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PORT TYPE DEFINITION - A port type groups a set of operations into
+	a logical service unit.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- portType implemented by the BPELProcessGetData BPEL process -->
+	<wsdl:portType name="BPELProcessGetData">
+		<wsdl:operation name="process">
+			<wsdl:input message="client:BPELProcessGetDataRequestMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- portType implemented by the requester of BPELProcessGetData BPEL process
+	for asynchronous callback purposes
+	-->
+	<wsdl:portType name="BPELProcessGetDataCallback">
+		<wsdl:operation name="processResponse">
+			<wsdl:input message="client:BPELProcessGetDataResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PARTNER LINK TYPE DEFINITION
+	the BPELProcessGetData partnerLinkType binds the provider and
+	requester portType into an asynchronous conversation.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="BPELProcessGetData">
+		<plnk:role name="BPELProcessGetDataProvider">
+			<plnk:portType name="client:BPELProcessGetData"/>
+		</plnk:role>
+		<plnk:role name="BPELProcessGetDataRequester">
+			<plnk:portType name="client:BPELProcessGetDataCallback"/>
+		</plnk:role>
+	</plnk:partnerLinkType>
+</wsdl:definitions>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?bpmo version="11.1.1.7.0.0.8" build="0.8" fullName="Data.EmpDataBusObject" modifiers="268435456"?>
+<!--########################################################################################-->
+<!--####                                                                                ####-->
+<!--####          THIS IS AN AUTO GENERATED FILE. PLEASE DO NOT MANUALLY MODIFY         ####-->
+<!--#### CHANGES TO THIS FILE MAY PRODUCE UNEXPECTED BEHAVIOR AND WOULD BE OVERWRITTEN  ####-->
+<!--####                                                                                ####-->
+<!--########################################################################################-->
+<definitions targetNamespace="http://xmlns.oracle.com/bpm/bpmobject/Data/EmpDataBusObject.Interface" name="EmpDataBusObject" xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns:tns="http://xmlns.oracle.com/bpm/bpmobject/Data/EmpDataBusObject.Interface"  xmlns="http://schemas.xmlsoap.org/wsdl/"  xmlns:oj="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData"  xmlns:bpmo="http://xmlns.oracle.com/bpm/bpmobject/" >
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData" schemaLocation="../../xsd/getEmpData.xsd"/>
+        </xsd:schema>
+    </types>
+    <portType name="EmpDataBusObjectPortType"/>
+    <binding name="EmpDataBusObjectPortTypeBinding" type="tns:EmpDataBusObjectPortType">
+        <bpmo:binding element="oj:getEmpDataOutputCollection"/>
+    </binding>
+</definitions>

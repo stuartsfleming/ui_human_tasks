@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="BPELProcessGetData" targetNamespace="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/BPMGetEmpData/getEmpDataBPM/BPELProcessGetData" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/BPMGetEmpData/getEmpDataBPM/getEmpData" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData" xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/file/BPMGetEmpData/getEmpDataBPM/Writer" id="BpPrc0">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="bpelprocessgetdata_client" partnerLinkType="client:BPELProcessGetData" myRole="BPELProcessGetDataProvider" partnerRole="BPELProcessGetDataRequester"/>
+        <partnerLink name="getEmpData" partnerLinkType="ns1:getEmpData_plt" partnerRole="getEmpData_role"/>
+        <partnerLink name="Writer" partnerLinkType="ns3:Write_plt" partnerRole="Write_role"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:BPELProcessGetDataRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:BPELProcessGetDataResponseMessage"/>
+        <variable name="InvokeGetData_InputVariable" messageType="ns1:getEmpDataInput_msg"/>
+        <variable name="InvokeGetData_OutputVariable" messageType="ns1:getEmpDataOutputCollection_msg"/>
+        <variable name="InvokeWriter_InputVariable" messageType="ns3:Write_msg"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main" id="BpSeq0">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcessGetData.wsdl) -->
+        <receive name="receiveInput" partnerLink="bpelprocessgetdata_client" portType="client:BPELProcessGetData" operation="process" variable="inputVariable" createInstance="yes" id="BpRcv0"/>
+        <assign name="Assign1" id="BpAss0">
+            <copy>
+                <from variable="inputVariable" part="payload" query="/ns2:getEmpDataInput/ns2:pEmpID"/>
+                <to variable="InvokeGetData_InputVariable" part="getEmpDataInput_msg" query="/ns2:getEmpDataInput/ns2:pEmpID"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeGetData" bpelx:invokeAsDetail="no" inputVariable="InvokeGetData_InputVariable" outputVariable="InvokeGetData_OutputVariable" partnerLink="getEmpData" portType="ns1:getEmpData_ptt" operation="getEmpData" id="BpInv0"/>
+        <assign name="Assign2" id="BpAss1">
+            <copy>
+                <from variable="InvokeGetData_OutputVariable" part="getEmpDataOutputCollection" query="/ns2:getEmpDataOutputCollection/ns2:getEmpDataOutput"/>
+                <to variable="outputVariable" part="payload" query="/ns2:getEmpDataOutputCollection/ns2:getEmpDataOutput"/>
+            </copy>
+            <copy>
+                <from variable="InvokeGetData_OutputVariable" part="getEmpDataOutputCollection" query="/ns2:getEmpDataOutputCollection/ns2:getEmpDataOutput"/>
+                <to variable="InvokeWriter_InputVariable" part="body" query="/ns2:getEmpDataOutputCollection/ns2:getEmpDataOutput"/>
+            </copy>
+        </assign>
+        <invoke name="InvokeWriter" bpelx:invokeAsDetail="no" inputVariable="InvokeWriter_InputVariable" partnerLink="Writer" portType="ns3:Write_ptt" operation="Write" id="BpInv1"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="bpelprocessgetdata_client" portType="client:BPELProcessGetDataCallback" operation="processResponse" inputVariable="outputVariable" id="BpInv2"/>
+    </sequence>
+</process><!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri May 30 20:59:20 EDT 2014
+  Author:  ssf
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->

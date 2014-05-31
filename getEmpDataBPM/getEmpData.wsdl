@@ -1,0 +1,25 @@
+<?binding.jca getEmpData_db.jca?>
+<wsdl:definitions name="getEmpData" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BPMGetEmpData/getEmpDataBPM/getEmpData" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BPMGetEmpData/getEmpDataBPM/getEmpData" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="getEmpData_plt">
+        <plt:role name="getEmpData_role">
+            <plt:portType name="tns:getEmpData_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/getEmpData" schemaLocation="xsd/getEmpData.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="getEmpDataInput_msg">
+        <wsdl:part name="getEmpDataInput_msg" element="db:getEmpDataInput"/>
+    </wsdl:message>
+    <wsdl:message name="getEmpDataOutputCollection_msg">
+        <wsdl:part name="getEmpDataOutputCollection" element="db:getEmpDataOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="getEmpData_ptt">
+        <wsdl:operation name="getEmpData">
+            <wsdl:input message="tns:getEmpDataInput_msg"/>
+            <wsdl:output message="tns:getEmpDataOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
